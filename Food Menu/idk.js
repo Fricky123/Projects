@@ -1,2 +1,2 @@
-console.log("yoooooo");
-alert("wijerowjeriwje");
+console.log("Changes babyyy");
+alert("yoyoyoyoyoo");

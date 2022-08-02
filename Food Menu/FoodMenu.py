@@ -3,8 +3,9 @@ import random
 
 Customer_Money = 0
 
-'''Introductory script'''
+
 def intro():
+    '''Introductory script'''
     print("Welcome to McFricky\n")
     x = input("Would you like to order? ")
     if x == "y":
@@ -16,11 +17,11 @@ def intro():
         intro()
 
 def menu():
-    open("Food Database.txt", "r")
-    print(f"[1]")
-    
+    '''Provides customer with a list of choices for food'''
+    print("")
 
 def ordering():
+    '''Provides customer with a list of choices'''
     print("[1] Food Menu, [2] Purchase orders, [3] Exit\n")
     x = input("Enter number of choice: ")
     if x == "1":
@@ -36,9 +37,8 @@ def ordering():
 
 def transaction(x):
     '''Make changes to COSTS/ITEMS/LIST of customer's CART'''
-    pass
 
 
-'''Sequence'''
+# Sequence
 Customer_Money = random.randint(500, 1000)
 intro()
