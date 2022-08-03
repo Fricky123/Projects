@@ -1,4 +1,5 @@
-"""an automated machine that lets customers order food"""
+"""A practice simulation that lets users order food"""
+"""WIP WIP WIP WIP"""
 import random
 
 Costs = 0
@@ -103,7 +104,7 @@ def ordering():
 
 
 def transaction(x):
-    """Make changes to COSTS/ITEMS/LIST of customer's CART"""
+    """Make changes to COSTS/ITEMS/LIST in customer's CART"""
 
     global Costs
     global Items
