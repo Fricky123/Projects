@@ -1,4 +1,4 @@
-"""A practice simulation that lets users order food"""
+"""A simulation that lets users order food through an automated machine"""
 """WIP WIP WIP WIP"""
 import random
 
@@ -21,11 +21,13 @@ f_p = {"f1": 50,
        "f4": 234,
        "f5": 133}
 
+# Miscellaneous
+Delivery_Cost = 9999
 
 def intro():
     """Introductory script"""
 
-    print("Welcome to McFricky\n")
+    print("\nWelcome to McFricky\n")
 
     x = input("Would you like to order[y/n]? ")
 
@@ -53,21 +55,53 @@ def menu():
     else:
         print(f"List: {List}\n")
 
-    print(f"Your balance: {Customer_Money} php\n"
-          "\nOptions: [1]Food Menu, [2]Purchase orders, [3] Exit")
+    print(f"Your balance: {Customer_Money} php\n\n"
+          "Options: [1]Food Menu, [2]Finalize Cart For Purchase, [3] Exit\n")
 
-    x = input("\nEnter number of choice: ")
+    x = input("Enter number of choice: ")
 
     if x == "1":
+        print("\n([Food Menu] Selected...)\n")
         ordering()
 
     elif x == "2":
-        print(f"You new balance: {Customer_Money - Costs}")
-        y = input("Finalize purchase[y/n]? ")
+        print("\n([Finalize Cart For Purchase] Selected...)\n")
 
+        print("\n"
+              "Your Cart:\n\n"
+              f"Cost: {Costs} php\n"
+              f"Items: {Items}")
+
+        if not List:
+            print(f"List: none\n")
+        else:
+            print(f"List: {List}\n")
+
+        print(f"Your balance: {Customer_Money} php\n"
+              f"Delivery Cost: {9999} php\n"
+              f"Your new balance: {Customer_Money - Costs - Delivery_Cost} php\n")
+        y = input("Buy[y/n]? ")
+        if y == "y":
+            if Customer_Money < (Costs + Delivery_Cost):
+                input("\nInsufficient payment...")
+                menu()
+            elif Customer_Money > (Costs + Delivery_Cost):
+                input("(Purchase success!)\n")
+                print("Thank you for purchasing at McFricky!\n"
+                      "Have a good day!")
+            else:
+                input("\nInvalid input...")
 
     elif x == "3":
-        print("Goodbye...")
+        print("\n([Exit] Selected...)\n")
+        y = input("Exit to Main Menu[y/n]: ")
+        if y == "y":
+            intro()
+        elif y == "n":
+            menu()
+        else:
+            input("Invalid input...")
+            menu()
 
     else:
         input("Invalid input...")
@@ -82,8 +116,7 @@ def ordering():
           f"[3]{f.get('f3')} = {f_p.get('f3')} php\n"
           f"[4]{f.get('f4')} = {f_p.get('f4')} php\n"
           f"[5]{f.get('f5')} = {f_p.get('f5')} php\n"
-          f"[6]Exit"
-          f"\n")
+          f"[6]Exit\n")
     x = input("Input order: ")
     if x == "1":
         transaction("f1")
@@ -96,7 +129,7 @@ def ordering():
     elif x == "5":
         transaction("f5")
     elif x == "6":
-        print("Exiting Food Menu...")
+        print("(Exiting Food Menu...)")
         menu()
     else:
         input("Invalid input...")
@@ -114,7 +147,7 @@ def transaction(x):
     try:
         quantity = int(input("Input quantity: "))
 
-        print(f"{quantity} {f.get(x)} ordered...")
+        print(f"({quantity} {f.get(x)} ordered...)")
 
         y = input("Add to cart[y/n]?: ")
 
@@ -122,10 +155,13 @@ def transaction(x):
             Costs += quantity * f_p.get(x)
             Items += quantity
             List.append(f"{f.get(x)}({quantity})")
+
+            print(f"({f.get(x)}({quantity}) added to Cart...)\n ")
+
             menu()
 
         elif y == "n":
-            print("\nOrder cancelled...")
+            print("\n(Order cancelled...)\n")
             ordering()
 
         else:
