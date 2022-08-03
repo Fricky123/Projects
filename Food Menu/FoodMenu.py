@@ -64,6 +64,7 @@ def menu():
         print(f"You new balance: {Customer_Money - Costs}")
         y = input("Finalize purchase[y/n]? ")
 
+
     elif x == "3":
         print("Goodbye...")
 
@@ -114,7 +115,7 @@ def transaction(x):
 
         print(f"{quantity} {f.get(x)} ordered...")
 
-        y = input("Add to cart[y/n]: ")
+        y = input("Add to cart[y/n]?: ")
 
         if y == "y":
             Costs += quantity * f_p.get(x)
@@ -123,6 +124,7 @@ def transaction(x):
             menu()
 
         elif y == "n":
+            print("\nOrder cancelled...")
             ordering()
 
         else:
