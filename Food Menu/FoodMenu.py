@@ -1,6 +1,7 @@
-"""A simulation that lets users order food through an automated machine"""
-"""WIP WIP WIP WIP"""
 import random
+"""A simulation that lets users order food through an automated machine"""
+"""WIP"""
+
 
 Costs = 0
 Items = 0
@@ -23,6 +24,7 @@ f_p = {"f1": 50,
 
 # Miscellaneous
 Delivery_Cost = 9999
+
 
 def intro():
     """Introductory script"""
