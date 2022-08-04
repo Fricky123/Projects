@@ -1,8 +1,8 @@
 import random
-"""A simulation that lets users order food through an automated machine"""
-"""WIP"""
+"""Let's you pretend that you're ordering food through an automated machine"""
+"wip"
 
-
+# global variables
 Costs = 0
 Items = 0
 List = []
@@ -54,6 +54,7 @@ def menu():
 
     if not List:
         print(f"List: none\n")
+
     else:
         print(f"List: {List}\n")
 
@@ -76,31 +77,39 @@ def menu():
 
         if not List:
             print(f"List: none\n")
+
         else:
             print(f"List: {List}\n")
 
         print(f"Your balance: {Customer_Money} php\n"
               f"Delivery Cost: {9999} php\n"
               f"Your new balance: {Customer_Money - Costs - Delivery_Cost} php\n")
+
         y = input("Buy[y/n]? ")
+
         if y == "y":
             if Customer_Money < (Costs + Delivery_Cost):
                 input("\nInsufficient payment...")
                 menu()
+
             elif Customer_Money > (Costs + Delivery_Cost):
                 input("(Purchase success!)\n")
                 print("Thank you for purchasing at McFricky!\n"
                       "Have a good day!")
+
             else:
                 input("\nInvalid input...")
 
     elif x == "3":
         print("\n([Exit] Selected...)\n")
         y = input("Exit to Main Menu[y/n]: ")
+
         if y == "y":
             intro()
+
         elif y == "n":
             menu()
+
         else:
             input("Invalid input...")
             menu()
@@ -112,6 +121,7 @@ def menu():
 
 def ordering():
     """Provides customer with a list of choices for food"""
+
     print(f"\n"
           f"[1]{f.get('f1')} = {f_p.get('f1')} php\n"
           f"[2]{f.get('f2')} = {f_p.get('f2')} php\n"
@@ -139,7 +149,7 @@ def ordering():
 
 
 def transaction(x):
-    """Make changes to COSTS/ITEMS/LIST in customer's CART"""
+    """Make changes to COSTS/ITEMS/LIST in customer's CART based on his order"""
 
     global Costs
     global Items
