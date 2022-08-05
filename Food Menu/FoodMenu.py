@@ -1,7 +1,11 @@
 import random
-"""Let's you pretend that you're ordering food through an automated machine"""
 
-# global variables
+"""Online Order simulation"""
+
+# ----------------------------------------------------------------------
+'''global variables'''
+
+# Cart
 Costs = 0
 Items = 0
 List = []
@@ -24,8 +28,9 @@ f_p = {"f1": 50,
 # Miscellaneous
 Delivery_Cost = 9999
 
+# ----------------------------------------------------------------------
+'''Main Functions (in order)'''
 
-# Main Functions
 def intro():
     """Introductory script"""
     separator_line()
@@ -45,7 +50,6 @@ def intro():
     else:
         invalid_input()
         intro()
-
 
 def menu():
     """Provides customer with a list of choices"""
@@ -80,9 +84,9 @@ def menu():
         invalid_input()
         menu()
 
-
 def ordering():
     """Provides customer with a list of choices for food"""
+
     separator_line()
 
     print(f"\n"
@@ -92,7 +96,9 @@ def ordering():
           f"[4]{f.get('f4')} = {f_p.get('f4')} php\n"
           f"[5]{f.get('f5')} = {f_p.get('f5')} php\n"
           f"[6]Exit\n")
+
     x = input("Input order: ")
+
     if x == "1":
         transaction("f1")
     elif x == "2":
@@ -106,10 +112,10 @@ def ordering():
     elif x == "6":
         print("(Exiting Food Menu...)")
         menu()
+
     else:
         invalid_input()
         ordering()
-
 
 def transaction(x):
     """Make changes to COSTS/ITEMS/LIST in customer's CART based on his order"""
@@ -159,8 +165,9 @@ def transaction(x):
               "-----------------------------------")
         ordering()
 
+# ----------------------------------------------------------------------
+'''Utility Functions'''
 
-# Utility Functions
 def customer_cart():
     if not List and not Items:
         print("Your Cart:\n\n"
@@ -232,5 +239,8 @@ def invalid_input():
 
 def separator_line():
     print("----------------------------------------------------------")
-# Sequence
+
+# ----------------------------------------------------------------------
+'''Sequence'''
+
 intro()
