@@ -1,6 +1,5 @@
 import random
 """Let's you pretend that you're ordering food through an automated machine"""
-"wip"
 
 # global variables
 Costs = 0
@@ -26,10 +25,12 @@ f_p = {"f1": 50,
 Delivery_Cost = 9999
 
 
+# Main Functions
 def intro():
     """Introductory script"""
+    separator_line()
 
-    print("\nWelcome to McFricky\n")
+    print("Welcome to McFricky!\n")
 
     x = input("Would you like to order[y/n]? ")
 
@@ -37,71 +38,32 @@ def intro():
         menu()
 
     elif x == "n":
-        print("\nGoodbye!")
+        separator_line()
+        print("Goodbye!")
+        separator_line()
 
     else:
-        input("Invalid input...\n")
+        invalid_input()
         intro()
 
 
 def menu():
     """Provides customer with a list of choices"""
+    separator_line()
+    customer_cart()
 
-    print("\n"
-          "Your cart:\n\n"
-          f"Cost: {Costs} php\n"
-          f"Items: {Items}")
+    print("Options: [1]Food Menu, [2]Purchase/Reset Cart, [3] Exit")
 
-    if not List:
-        print(f"List: none\n")
-
-    else:
-        print(f"List: {List}\n")
-
-    print(f"Your balance: {Customer_Money} php\n\n"
-          "Options: [1]Food Menu, [2]Finalize Cart For Purchase, [3] Exit\n")
-
-    x = input("Enter number of choice: ")
+    x = input("Choose option: ")
 
     if x == "1":
-        print("\n([Food Menu] Selected...)\n")
         ordering()
 
     elif x == "2":
-        print("\n([Finalize Cart For Purchase] Selected...)\n")
-
-        print("\n"
-              "Your Cart:\n\n"
-              f"Cost: {Costs} php\n"
-              f"Items: {Items}")
-
-        if not List:
-            print(f"List: none\n")
-
-        else:
-            print(f"List: {List}\n")
-
-        print(f"Your balance: {Customer_Money} php\n"
-              f"Delivery Cost: {9999} php\n"
-              f"Your new balance: {Customer_Money - Costs - Delivery_Cost} php\n")
-
-        y = input("Buy[y/n]? ")
-
-        if y == "y":
-            if Customer_Money < (Costs + Delivery_Cost):
-                input("\nInsufficient payment...")
-                menu()
-
-            elif Customer_Money > (Costs + Delivery_Cost):
-                input("(Purchase success!)\n")
-                print("Thank you for purchasing at McFricky!\n"
-                      "Have a good day!")
-
-            else:
-                input("\nInvalid input...")
+        cart_menu()
 
     elif x == "3":
-        print("\n([Exit] Selected...)\n")
+        separator_line()
         y = input("Exit to Main Menu[y/n]: ")
 
         if y == "y":
@@ -111,16 +73,17 @@ def menu():
             menu()
 
         else:
-            input("Invalid input...")
+            invalid_input()
             menu()
 
     else:
-        input("Invalid input...")
+        invalid_input()
         menu()
 
 
 def ordering():
     """Provides customer with a list of choices for food"""
+    separator_line()
 
     print(f"\n"
           f"[1]{f.get('f1')} = {f_p.get('f1')} php\n"
@@ -144,22 +107,25 @@ def ordering():
         print("(Exiting Food Menu...)")
         menu()
     else:
-        input("Invalid input...")
+        invalid_input()
         ordering()
 
 
 def transaction(x):
     """Make changes to COSTS/ITEMS/LIST in customer's CART based on his order"""
+    separator_line()
 
     global Costs
     global Items
 
     print(f"{f.get(x)} selected...")
 
+    separator_line()
+
     try:
         quantity = int(input("Input quantity: "))
 
-        print(f"({quantity} {f.get(x)} ordered...)")
+        print(f"You are about to add {quantity} order/s of {f.get(x)} to you Cart...")
 
         y = input("Add to cart[y/n]?: ")
 
@@ -168,22 +134,103 @@ def transaction(x):
             Items += quantity
             List.append(f"{f.get(x)}({quantity})")
 
-            print(f"({f.get(x)}({quantity}) added to Cart...)\n ")
+            separator_line()
+
+            print(f"{quantity} order/s of {f.get(x)} added to Cart...")
 
             menu()
 
         elif y == "n":
-            print("\n(Order cancelled...)\n")
+            separator_line()
+            print("\nOrder cancelled...\n")
             ordering()
 
         else:
-            input("Invalid input...")
+            input("--------------------------------------------------\n"
+                  "Invalid input... Press any key to continue...")
+            print("(Please use whole numbers for this input)"
+                  "-----------------------------------")
             ordering()
 
     except ValueError:
-        input("Invalid; please use whole numbers as input...")
+        input("--------------------------------------------------\n"
+              "Invalid input... Press any key to continue...")
+        print("(Please use whole numbers for this input)"
+              "-----------------------------------")
         ordering()
 
 
+# Utility Functions
+def customer_cart():
+    if not List and not Items:
+        print("Your Cart:\n\n"
+              f"Cost: 0 php\n"
+              f"Items: none\n"
+              f"List: none\n\n"
+              f"Your balance: {Customer_Money} php\n")
+
+    else:
+        print("Your Cart:\n\n"
+              f"Cost: {Costs} php\n"
+              f"Items: {Items}\n"
+              f"List: {List}\n\n"
+              f"Your balance: {Customer_Money} php\n")
+
+
+def cart_menu():
+    global Costs
+    global Items
+    global List
+
+    separator_line()
+
+    if Items:
+        customer_cart()
+
+        print("[1]Purchase [2]Reset [3]Exit")
+
+        y = input("Choose option: ")
+
+        if y == "1":
+            if Customer_Money < (Costs + Delivery_Cost):
+                input("\nInsufficient payment...")
+                menu()
+
+            elif Customer_Money > (Costs + Delivery_Cost):
+                print("Thank you for purchasing at McFricky!\n"
+                      "Have a good day!")
+
+            else:
+                invalid_input()
+                cart_menu()
+
+        elif y == "2":
+            Costs = 0
+            Items = 0
+            List = []
+            separator_line()
+            input("My Cart has been reset... Press any key to continue...")
+            cart_menu()
+
+        elif y == "3":
+            menu()
+
+        else:
+            invalid_input()
+            cart_menu()
+
+    else:
+        input("There's currently nothing to purchase or reset in you Cart...\n"
+              "Press any key to continue...")
+        menu()
+
+
+def invalid_input():
+    separator_line()
+    input("Invalid input... Press any key to continue...")
+
+
+def separator_line():
+    print("----------------------------------------------------------")
 # Sequence
 intro()
