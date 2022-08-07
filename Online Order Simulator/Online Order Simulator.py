@@ -1,17 +1,18 @@
 import random
 import locale
 locale.setlocale(locale.LC_ALL, '')
+# ----------------------------------------------------------------------
 
 """Online Order Simulator"""
 
 # ----------------------------------------------------------------------
-'''global variables'''
+'''Global Variables'''
 
 # Cart
 Costs = 0
 Items = 0
 List = ""
-Customer_Money = random.randint(500, 1000)
+Balance = random.randint(50000, 100000)
 
 # Food
 f = {"f1": "Adobo",
@@ -69,7 +70,11 @@ def menu():
         food_menu()
 
     elif x == "2":
-        cart_menu()
+        if Items:
+            cart_menu()
+        else:
+            invalid_input()
+            menu()
 
     elif x == "e":
         separator_line()
@@ -97,22 +102,33 @@ def cart_menu():
     separator_line()
 
     if Items:
-        customer_cart()
+        print(f"Cart = {Costs:n} php\n"
+              f"Delivery = {Delivery_Cost:n} pnp\n"
+              f"Total Cost = {Costs + Delivery_Cost:n} php\n\n"
+              f"Your balance = {Balance:n} php - {Costs + Delivery_Cost:n} php")
 
-        print(f"Cart Cost: {Costs:n} php\n"
-              f"Delivery Cost: {Delivery_Cost} php \n"
-              f"Total Cost = {Customer_Money - Costs - Delivery_Cost:n} php\n\n"
-              "[1]Purchase [2]Reset [e]Exit")
+        if (Balance - (Costs + Delivery_Cost)) < 0:
+            print(f"You new balance = 0 php\n\n"
+                  f"Insufficient payment, [Purchase] option will not be available...\n\n"
+                  f"[1]Reset [e]Exit")
+        else:
+            print(f"You new balance = {(Balance - (Costs + Delivery_Cost)):n} php\n\n"
+                  f"[1]Reset [2]Purchase [e]Exit")
 
         y = input("Choose option: ")
 
         if y == "1":
-            if Customer_Money < (Costs + Delivery_Cost):
-                separator_line()
-                input("\nInsufficient payment...")
+            separator_line()
+            input("My Cart has been reset... Press any key to continue...")
+            menu()
+
+        elif y == "2":
+            if Balance < (Costs + Delivery_Cost):
+                invalid_input()
                 menu()
 
-            elif Customer_Money > (Costs + Delivery_Cost):
+            elif Balance > (Costs + Delivery_Cost):
+                separator_line()
                 print("Thank you for purchasing at McFricky!\n"
                       "Have a good day!")
 
@@ -120,15 +136,7 @@ def cart_menu():
                 invalid_input()
                 cart_menu()
 
-        elif y == "2":
-            Costs = 0
-            Items = 0
-            List = []
-            separator_line()
-            input("My Cart has been reset... Press any key to continue...")
-            menu()
-
-        elif y == "3":
+        elif y == "e":
             menu()
 
         else:
@@ -180,7 +188,7 @@ def transaction(x):
     global Items
     global List
 
-    print(f"\n{f.get(x)} selected...\n")
+    print(f"{f.get(x)} selected...\n")
 
     try:
         quantity = int(input("Input quantity: "))
@@ -199,7 +207,7 @@ def transaction(x):
                 List += f"{f.get(x)}({(str(quantity))})"
             else:
                 List += f", {f.get(x)}({(str(quantity))})"
-            print(f"\n{quantity} order/s of {f.get(x)} added to Cart...\n")
+            print(f"\n{quantity} order/s of {f.get(x)} added to Cart...")
 
             menu()
 
@@ -222,19 +230,19 @@ def transaction(x):
 
 def customer_cart():
     if not List and not Items:
-        f'{Customer_Money:n}'
+        f'{Balance:n}'
         print("Your Cart:\n\n"
               f"Cost: ---\n"
               f"Items: ---\n"
               f"List: ---\n\n"
-              f"Your balance: {Customer_Money:n} php\n")
+              f"Your balance: {Balance:n} php\n")
 
     else:
         print("Your Cart:\n\n"
               f"Cost: {Costs:n} php\n"
               f"Items: {Items}\n"
               f"List: {List}\n\n"
-              f"Your balance: {Customer_Money:n} php")
+              f"Your balance: {Balance:n} php")
 
 def invalid_input():
     separator_line()
@@ -247,3 +255,4 @@ def separator_line():
 '''Sequence'''
 
 intro()
+# ----------------------------------------------------------------------
