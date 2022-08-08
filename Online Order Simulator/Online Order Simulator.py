@@ -21,6 +21,18 @@ f = {"f1": "Adobo",
      "f4": "Kinilaw",
      "f5": "Bulalo"}
 
+# Drinks
+d = {"d1": "Coka-Cola (1 liter)",
+     "d2": "Sprite (1 liter)",
+     "d3": "Royal (1 liter)",
+     "d4": "Coke Sakto"}
+
+# Prices for Drinks
+d_p = {"d1": 50,
+       "d2": 50,
+       "d3": 50,
+       "d4": 15}
+
 # Prices for Food
 f_p = {"f1": 50,
        "f2": 60,
@@ -37,10 +49,11 @@ Delivery_Cost = 9999
 def intro():
     """Introductory script"""
     separator_line()
+    print("                 [MCFRICKY FOOD MACHINE]\n\n"
+          "Welcome to McFricky!\n")
 
-    print("Welcome to McFricky!\n")
-
-    x = input("Would you like to order[y/n]? ")
+    x = (input("Would you like to order[y/n]? "))
+    x.lower()
 
     if x == "y":
         menu()
@@ -57,6 +70,7 @@ def intro():
 def menu():
     """Provides customer with a list of choices"""
     separator_line()
+    print("                       [MAIN MENU]")
     customer_cart()
 
     if Items:
@@ -76,9 +90,10 @@ def menu():
             invalid_input()
             menu()
 
-    elif x == "e":
+    elif x.lower() == "e":
         separator_line()
-        y = input("Exit to Main Menu[y/n]: ")
+        y = input("Exit to Introductory page[y/n]: ")
+        y.lower()
 
         if y == "y":
             intro()
@@ -101,6 +116,8 @@ def cart_menu():
 
     separator_line()
 
+    print("                [PURCHASE/RESET CART MENU]")
+
     if Items:
         print(f"Cart = {Costs:n} php\n"
               f"Delivery = {Delivery_Cost:n} pnp\n"
@@ -116,6 +133,7 @@ def cart_menu():
                   f"[1]Reset [2]Purchase [e]Exit")
 
         y = input("Choose option: ")
+        y.lower()
 
         if y == "1":
             separator_line()
@@ -152,15 +170,22 @@ def food_menu():
 
     separator_line()
 
-    print(f"Food Menu:\n"
+    print(f"                       [FOOD MENU]\n"
+          f"Meals:\n"
           f"[1]{f.get('f1')} = {f_p.get('f1'):n} php\n"
           f"[2]{f.get('f2')} = {f_p.get('f2'):n} php\n"
           f"[3]{f.get('f3')} = {f_p.get('f3'):n} php\n"
           f"[4]{f.get('f4')} = {f_p.get('f4'):n} php\n"
-          f"[5]{f.get('f5')} = {f_p.get('f5'):n} php\n"
+          f"[5]{f.get('f5')} = {f_p.get('f5'):n} php\n\n"
+          f"Drinks:\n"
+          f"[6]{d.get('d1')} = {d_p.get('d1'):n} php\n"
+          f"[7]{d.get('d2')} = {d_p.get('d2'):n} php\n"
+          f"[8]{d.get('d3')} = {d_p.get('d3'):n} php\n"
+          f"[9]{d.get('d4')} = {d_p.get('d4'):n} php\n"
           f"[e]Exit\n")
 
     x = input("Choose option: ")
+    x.lower()
 
     if x == "1":
         transaction("f1")
@@ -172,6 +197,14 @@ def food_menu():
         transaction("f4")
     elif x == "5":
         transaction("f5")
+    elif x == "6":
+        transaction("f6")
+    elif x == "7":
+        transaction("f7")
+    elif x == "8":
+        transaction("f8")
+    elif x == "9":
+        transaction("f9")
     elif x == "e":
         print("(Exiting Food Menu...)")
         menu()
@@ -199,6 +232,7 @@ def transaction(x):
             print(f"\nYou are about to add {quantity} order of {f.get(x)} to you Cart...\n")
 
         y = input("Add to cart[y/n]?: ")
+        y.lower()
 
         if y == "y":
             Costs += quantity * f_p.get(x)
@@ -251,8 +285,17 @@ def invalid_input():
 def separator_line():
     print("----------------------------------------------------------")
 
+# def page_title(x):
+#     list(x)
+#     spaces = 0
+#     for i in x:
+#
+#     title = f"[{x}]"
+
 # ----------------------------------------------------------------------
 '''Sequence'''
 
 intro()
 # ----------------------------------------------------------------------
+#type title in a []
+#get its maximum index to subtract to the separator index
