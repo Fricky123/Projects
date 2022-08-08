@@ -49,8 +49,9 @@ Delivery_Cost = 9999
 def intro():
     """Introductory script"""
     separator_line()
-    print("                 [MCFRICKY FOOD MACHINE]\n\n"
-          "Welcome to McFricky!\n")
+    # print("                 [MCFRICKY FOOD MACHINE]\n\n")
+    page_title("MCFRICKY FOOD MACHINE")
+    print("\nWelcome to McFricky!\n")
 
     x = (input("Would you like to order[y/n]? "))
     x.lower()
@@ -70,7 +71,7 @@ def intro():
 def menu():
     """Provides customer with a list of choices"""
     separator_line()
-    print("                       [MAIN MENU]")
+    page_title("MAIN MENU")
     customer_cart()
 
     if Items:
@@ -85,7 +86,7 @@ def menu():
 
     elif x == "2":
         if Items:
-            cart_menu()
+            purchase_or_reset_cart()
         else:
             invalid_input()
             menu()
@@ -109,14 +110,14 @@ def menu():
         invalid_input()
         menu()
 
-def cart_menu():
+def purchase_or_reset_cart():
     global Costs
     global Items
     global List
 
     separator_line()
 
-    print("                [PURCHASE/RESET CART MENU]")
+    page_title("PURCHASE/RESET CART MENU")
 
     if Items:
         print(f"Cart = {Costs:n} php\n"
@@ -152,26 +153,25 @@ def cart_menu():
 
             else:
                 invalid_input()
-                cart_menu()
+                purchase_or_reset_cart()
 
         elif y == "e":
             menu()
 
         else:
             invalid_input()
-            cart_menu()
+            purchase_or_reset_cart()
 
     else:
         invalid_input()
-        cart_menu()
+        purchase_or_reset_cart()
 
 def food_menu():
     """Provides customer with a list of choices for food"""
 
     separator_line()
-
-    print(f"                       [FOOD MENU]\n"
-          f"Meals:\n"
+    page_title("FOOD MENU")
+    print(f"Meals:\n"
           f"[1]{f.get('f1')} = {f_p.get('f1'):n} php\n"
           f"[2]{f.get('f2')} = {f_p.get('f2'):n} php\n"
           f"[3]{f.get('f3')} = {f_p.get('f3'):n} php\n"
@@ -221,7 +221,9 @@ def transaction(x):
     global Items
     global List
 
-    print(f"{f.get(x)} selected...\n")
+    page_title("TRANSACTION")
+
+    print(f"\n{f.get(x)} selected...\n")
 
     try:
         quantity = int(input("Input quantity: "))
@@ -260,7 +262,7 @@ def transaction(x):
         food_menu()
 
 # ----------------------------------------------------------------------
-'''Utility Functions'''
+'''Utility Functions (To prevent repeating long lines of code)'''
 
 def customer_cart():
     if not List and not Items:
@@ -283,19 +285,27 @@ def invalid_input():
     input("Invalid input... Press any key to continue...")
 
 def separator_line():
-    print("----------------------------------------------------------")
+    print("-----------------------------------------------------------")
 
-# def page_title(x):
-#     list(x)
-#     spaces = 0
-#     for i in x:
-#
-#     title = f"[{x}]"
+def page_title(x):
+    list(x)
+    title = f""
+    spaces = 57
+    for _ in x:
+        spaces -= 1
+    title += (" " * int(spaces/2))
+    title += f"[{x}]"
+    print(title)
 
+def food_database(x):
+    pass
+    # items = 0
+    # for x in f:
+    #     print(f"[1]{f.get('f1')} = {f_p.get('f1'):n} php\n")
+    #     items += 1
 # ----------------------------------------------------------------------
 '''Sequence'''
 
 intro()
 # ----------------------------------------------------------------------
-#type title in a []
-#get its maximum index to subtract to the separator index
+# made by me :)
