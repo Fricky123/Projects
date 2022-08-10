@@ -6,39 +6,41 @@ locale.setlocale(locale.LC_ALL, '')
 """Online Order Simulator"""
 
 # ----------------------------------------------------------------------
-'''Global Variables'''
+'''Data Values'''
 
 # Cart
-Costs = 0
-Items = 0
+costs = 0
+items = 0
 List = ""
 Balance = random.randint(50000, 100000)
 
 # Food
-f = {"f1": "Adobo",
-     "f2": "Sinigang",
-     "f3": "Pakbet",
-     "f4": "Kinilaw",
-     "f5": "Bulalo"}
-
-# Drinks
-d = {"d1": "Coka-Cola (1 liter)",
-     "d2": "Sprite (1 liter)",
-     "d3": "Royal (1 liter)",
-     "d4": "Coke Sakto"}
-
-# Prices for Drinks
-d_p = {"d1": 50,
-       "d2": 50,
-       "d3": 50,
-       "d4": 15}
+f = {1: "Adobo",
+     2: "Sinigang",
+     3: "Pakbet",
+     4: "Kinilaw",
+     5: "Bulalo",
+     6: "Chickenjoy sa Mcdo"}
 
 # Prices for Food
-f_p = {"f1": 50,
-       "f2": 60,
-       "f3": 334345,
-       "f4": 234,
-       "f5": 133}
+f_p = {1: 50,
+       2: 60,
+       3: 334345,
+       4: 234,
+       5: 133,
+       6: 1}
+
+# Drinks
+d = {1: "Coka-Cola (1 liter)",
+     2: "Sprite (1 liter)",
+     3: "Royal (1 liter)",
+     4: "Water"}
+
+# Prices for Drinks
+d_p = {1: 50,
+       2: 50,
+       3: 50,
+       4: 15}
 
 # Miscellaneous
 Delivery_Cost = 9999
@@ -74,7 +76,7 @@ def menu():
     page_title("MAIN MENU")
     customer_cart()
 
-    if Items:
+    if items:
         print("\n[1]Food Menu [2]Purchase/Reset Cart [e] Exit")
     else:
         print("[1]Food Menu [e] Exit")
@@ -85,7 +87,7 @@ def menu():
         food_menu()
 
     elif x == "2":
-        if Items:
+        if items:
             purchase_or_reset_cart()
         else:
             invalid_input()
@@ -111,26 +113,26 @@ def menu():
         menu()
 
 def purchase_or_reset_cart():
-    global Costs
-    global Items
+    global costs
+    global items
     global List
 
     separator_line()
 
     page_title("PURCHASE/RESET CART MENU")
 
-    if Items:
-        print(f"Cart = {Costs:n} php\n"
+    if items:
+        print(f"Cart = {costs:n} php\n"
               f"Delivery = {Delivery_Cost:n} pnp\n"
-              f"Total Cost = {Costs + Delivery_Cost:n} php\n\n"
-              f"Your balance = {Balance:n} php - {Costs + Delivery_Cost:n} php")
+              f"Total Cost = {costs + Delivery_Cost:n} php\n\n"
+              f"Your balance = {Balance:n} php - {costs + Delivery_Cost:n} php")
 
-        if (Balance - (Costs + Delivery_Cost)) < 0:
+        if (Balance - (costs + Delivery_Cost)) < 0:
             print(f"You new balance = 0 php\n\n"
                   f"Insufficient payment, [Purchase] option will not be available...\n\n"
                   f"[1]Reset [e]Exit")
         else:
-            print(f"You new balance = {(Balance - (Costs + Delivery_Cost)):n} php\n\n"
+            print(f"You new balance = {(Balance - (costs + Delivery_Cost)):n} php\n\n"
                   f"[1]Reset [2]Purchase [e]Exit")
 
         y = input("Choose option: ")
@@ -142,11 +144,11 @@ def purchase_or_reset_cart():
             menu()
 
         elif y == "2":
-            if Balance < (Costs + Delivery_Cost):
+            if Balance < (costs + Delivery_Cost):
                 invalid_input()
                 menu()
 
-            elif Balance > (Costs + Delivery_Cost):
+            elif Balance > (costs + Delivery_Cost):
                 separator_line()
                 print("Thank you for purchasing at McFricky!\n"
                       "Have a good day!")
@@ -171,43 +173,17 @@ def food_menu():
 
     separator_line()
     page_title("FOOD MENU")
-    print(f"Meals:\n"
-          f"[1]{f.get('f1')} = {f_p.get('f1'):n} php\n"
-          f"[2]{f.get('f2')} = {f_p.get('f2'):n} php\n"
-          f"[3]{f.get('f3')} = {f_p.get('f3'):n} php\n"
-          f"[4]{f.get('f4')} = {f_p.get('f4'):n} php\n"
-          f"[5]{f.get('f5')} = {f_p.get('f5'):n} php\n\n"
-          f"Drinks:\n"
-          f"[6]{d.get('d1')} = {d_p.get('d1'):n} php\n"
-          f"[7]{d.get('d2')} = {d_p.get('d2'):n} php\n"
-          f"[8]{d.get('d3')} = {d_p.get('d3'):n} php\n"
-          f"[9]{d.get('d4')} = {d_p.get('d4'):n} php\n"
-          f"[e]Exit\n")
+    menu_database()
 
-    x = input("Choose option: ")
+    x = input("\nChoose option: ")
     x.lower()
 
-    if x == "1":
-        transaction("f1")
-    elif x == "2":
-        transaction("f2")
-    elif x == "3":
-        transaction("f3")
-    elif x == "4":
-        transaction("f4")
-    elif x == "5":
-        transaction("f5")
-    elif x == "6":
-        transaction("f6")
-    elif x == "7":
-        transaction("f7")
-    elif x == "8":
-        transaction("f8")
-    elif x == "9":
-        transaction("f9")
-    elif x == "e":
+    if x == "e":
         print("(Exiting Food Menu...)")
         menu()
+
+    elif x != "e" and (f.get(int(x))) is not None:
+        transaction((int(x)))
 
     else:
         invalid_input()
@@ -217,8 +193,8 @@ def transaction(x):
     """Make changes to COSTS/ITEMS/LIST in customer's CART based on his order"""
     separator_line()
 
-    global Costs
-    global Items
+    global costs
+    global items
     global List
 
     page_title("TRANSACTION")
@@ -237,8 +213,8 @@ def transaction(x):
         y.lower()
 
         if y == "y":
-            Costs += quantity * f_p.get(x)
-            Items += quantity
+            costs += quantity * f_p.get(x)
+            items += quantity
             if not List:
                 List += f"{f.get(x)}({(str(quantity))})"
             else:
@@ -262,10 +238,10 @@ def transaction(x):
         food_menu()
 
 # ----------------------------------------------------------------------
-'''Utility Functions (To prevent repeating long lines of code)'''
+'''Utility Functions (To prevent repeating lines of code)'''
 
 def customer_cart():
-    if not List and not Items:
+    if not List and not items:
         f'{Balance:n}'
         print("Your Cart:\n\n"
               f"Cost: ---\n"
@@ -275,8 +251,8 @@ def customer_cart():
 
     else:
         print("Your Cart:\n\n"
-              f"Cost: {Costs:n} php\n"
-              f"Items: {Items}\n"
+              f"Cost: {costs:n} php\n"
+              f"Items: {items}\n"
               f"List: {List}\n\n"
               f"Your balance: {Balance:n} php")
 
@@ -297,15 +273,24 @@ def page_title(x):
     title += f"[{x}]"
     print(title)
 
-def food_database(x):
-    pass
-    # items = 0
-    # for x in f:
-    #     print(f"[1]{f.get('f1')} = {f_p.get('f1'):n} php\n")
-    #     items += 1
+def menu_database():
+    x = 1
+    y = 1
+    print(f"Meals:\n")
+    for _ in f:
+        print(f"[{x}]{f.get(x)} = {f_p.get(x):n} php")
+        x += 1
+    print(f"\nDrinks:\n")
+    for _ in d:
+        print(f"[{y}]{d.get(y)} = {d_p.get(y):n} php")
+        y += 1
+
+
 # ----------------------------------------------------------------------
 '''Sequence'''
 
 intro()
-# ----------------------------------------------------------------------
+# ww----------------------------------------------------------------------
 # made by me :)
+# Pending changes:
+#
