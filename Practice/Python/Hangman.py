@@ -67,6 +67,7 @@ def guess():
                 print("\nYou've won!")
                 break
             elif x not in list(word):
+                print("Wrong guess...")
                 guesses -= 1
             else:
                 print("\n"+hide_word_new(x))

@@ -216,41 +216,38 @@ def transaction(foodtype, foodtype_price, choice):
 
     print(f"{foodtype.get(choice)} selected...")
 
-    try:
-        quantity = int(input("Input quantity: "))
 
-        if quantity > 1:
-            print(f"You are about to add {quantity} orders of {foodtype.get(choice)} to you Cart...")
+    quantity = int(input("Input quantity: "))
+
+    if quantity > 1:
+        print(f"You are about to add {quantity} orders of {foodtype.get(choice)} to you Cart...")
+    else:
+        print(f"You are about to add {quantity} order of {foodtype.get(choice)} to you Cart...")
+
+    y = input("Add to cart[y/n]?: ")
+    y.lower()
+
+    if y == "y":
+        costs += quantity * foodtype_price.get(choice)
+        items += quantity
+        if not List:
+            List += f"{foodtype.get(choice)}({quantity:n})"
         else:
-            print(f"You are about to add {quantity} order of {foodtype.get(choice)} to you Cart...")
+            List += f", {foodtype.get(choice)}({quantity:n})"
+        separator_line()
+        print(f"{quantity} order/s of {foodtype.get(choice)} added to Cart...")
 
-        y = input("Add to cart[y/n]?: ")
-        y.lower()
+        menu()
 
-        if y == "y":
-            costs += quantity * foodtype_price.get(choice)
-            items += quantity
-            if not List:
-                List += f"{foodtype.get(choice)}({(str(quantity))})"
-            else:
-                List += f", {foodtype.get(choice)}({(str(quantity))})"
-            separator_line()
-            print(f"{quantity} order/s of {foodtype.get(choice)} added to Cart...")
+    elif y == "n":
+        separator_line()
+        print("\nOrder cancelled...\n")
+        food_or_drinks_menu(foodtype, foodtype_price)
 
-            menu()
-
-        elif y == "n":
-            separator_line()
-            print("\nOrder cancelled...\n")
-            food_or_drinks_menu(foodtype, foodtype_price)
-
-        else:
-            invalid_input()
-            food_or_drinks_menu(foodtype, foodtype_price)
-
-    except ValueError:
+    else:
         invalid_input()
         food_or_drinks_menu(foodtype, foodtype_price)
+
 
 
 # ----------------------------------------------------------------------
