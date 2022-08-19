@@ -2,7 +2,7 @@ import random
 import locale
 locale.setlocale(locale.LC_ALL, '')
 # ----------------------------------------------------------------------
-"""Online Order Simulator"""
+"""Order Simulator"""
 # ----------------------------------------------------------------------
 '''Variables'''
 
