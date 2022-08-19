@@ -158,8 +158,9 @@ def purchase_or_reset_cart():
     if items:
         print(f"\nTotal Cost = Your Cart + Delivery Cost\n"
               f"Total Cost = {costs:n} php + {delivery_cost:n} php\n"
-              f"Total Cost = {costs + delivery_cost:n} php\n\n"
-              f"Your balance: {balance:n}\n")
+              f"Total Cost = {costs + delivery_cost:n} php\n"
+              f"Your balance: {balance:n} php\n\n"
+              f"Your new balance: {balance - (costs + delivery_cost):n}")
 
         if (balance - (costs + delivery_cost)) < 0:
             print(f"Insufficient payment...\n\n"
@@ -213,15 +214,15 @@ def transaction(foodtype, foodtype_price, choice):
 
     page_title("TRANSACTION")
 
-    print(f"\n{foodtype.get(choice)} selected...\n")
+    print(f"{foodtype.get(choice)} selected...")
 
     try:
         quantity = int(input("Input quantity: "))
 
         if quantity > 1:
-            print(f"\nYou are about to add {quantity} orders of {foodtype.get(choice)} to you Cart...\n")
+            print(f"You are about to add {quantity} orders of {foodtype.get(choice)} to you Cart...")
         else:
-            print(f"\nYou are about to add {quantity} order of {foodtype.get(choice)} to you Cart...\n")
+            print(f"You are about to add {quantity} order of {foodtype.get(choice)} to you Cart...")
 
         y = input("Add to cart[y/n]?: ")
         y.lower()
@@ -233,7 +234,8 @@ def transaction(foodtype, foodtype_price, choice):
                 List += f"{foodtype.get(choice)}({(str(quantity))})"
             else:
                 List += f", {foodtype.get(choice)}({(str(quantity))})"
-            print(f"\n{quantity} order/s of {foodtype.get(choice)} added to Cart...")
+            separator_line()
+            print(f"{quantity} order/s of {foodtype.get(choice)} added to Cart...")
 
             menu()
 
@@ -248,7 +250,6 @@ def transaction(foodtype, foodtype_price, choice):
 
     except ValueError:
         invalid_input()
-        separator_line()
         food_or_drinks_menu(foodtype, foodtype_price)
 
 
@@ -260,16 +261,16 @@ def customer_cart():
     if not List and not items:
         f'{balance:n}'
         print("Your Cart:\n\n"
-              f"Cost: ---\n"
               f"Items: ---\n"
               f"List: ---\n\n"
+              f"Cost: ---\n"
               f"Your balance: {balance:n} php\n")
 
     else:
         print("Your Cart:\n\n"
-              f"Cost: {costs:n} php\n"
-              f"Items: {items}\n"
+              f"Items: {items:n}\n"
               f"List: {List}\n\n"
+              f"Cost: {costs:n} php\n"
               f"Your balance: {balance:n} php")
 
 def invalid_input():
@@ -288,7 +289,6 @@ def page_title(x):
     title += (" " * int(spaces/2))
     title += f"[{x}]"
     print(title)
-
 
 # ----------------------------------------------------------------------
 '''Sequence'''
