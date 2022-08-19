@@ -6,7 +6,6 @@ locale.setlocale(locale.LC_ALL, '')
 # ----------------------------------------------------------------------
 '''Variables'''
 
-
 # Cart
 costs = 0
 items = 0
