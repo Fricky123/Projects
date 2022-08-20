@@ -51,7 +51,6 @@ delivery_cost = 9999
 def intro():
     """Introductory script"""
     separator_line()
-    # print("                 [MCFRICKY FOOD MACHINE]\n\n")
     page_title("MCFRICKY FOOD MACHINE")
     print("\nWelcome to McFricky!\n")
 
@@ -71,7 +70,7 @@ def intro():
         intro()
 
 def menu():
-    """Provides customer with a list of choices"""
+    """Provides customer with a menu"""
     separator_line()
     page_title("MAIN MENU")
     customer_cart()
@@ -119,7 +118,7 @@ def menu():
         menu()
 
 def food_or_drinks_menu(foodtype, foodtype_price):
-    """Provides customer with a list of choices for food"""
+    """Provides customer with a menu for food"""
     separator_line()
     if foodtype == m:
         page_title("MEALS")
@@ -204,7 +203,7 @@ def purchase_or_reset_cart():
         purchase_or_reset_cart()
 
 def transaction(foodtype, foodtype_price, choice):
-    """Make changes to COSTS/ITEMS/LIST in customer's CART based on his order"""
+    """Make changes to COSTS/ITEMS/LIST in customer's cart"""
     separator_line()
 
     global costs
@@ -214,7 +213,6 @@ def transaction(foodtype, foodtype_price, choice):
     page_title("TRANSACTION")
 
     print(f"{foodtype.get(choice)} selected...")
-
 
     quantity = int(input("Input quantity: "))
 
@@ -246,7 +244,6 @@ def transaction(foodtype, foodtype_price, choice):
     else:
         invalid_input()
         food_or_drinks_menu(foodtype, foodtype_price)
-
 
 
 # ----------------------------------------------------------------------
