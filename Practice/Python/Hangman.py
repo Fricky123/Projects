@@ -12,7 +12,9 @@ words = {
     "OTORHINOLARYNGOLOGY": "It is a study of ear, nose, and throat.",
     "FOOD": "Nourishment eaten in solid form.",
     "METAL": "A music genre.",
-    "ARCHITECTURE": "Don't take this career path."
+    "ARCHITECTURE": "Don't take this career path.",
+    "PROGRAMMING": "Sakit sa ulo, di ko kasabot",
+    "FRICKY": "The person who made this... :)"
 }
 word = r.choice(list(words))
 guesses = 3
@@ -59,7 +61,10 @@ def guess():
             print("\nYou've won!")
             break
         else:
-            x = input(f"Enter a letter or word({guesses} tries left): ").upper()
+            if guesses == 1:
+                x = input(f"Enter a letter or word(Last Try): ").upper()
+            else:
+                x = input(f"Enter a letter or word({guesses} tries left): ").upper()
             if len(x.strip()) == 0:
                 print("You entered nothing...")
                 guess()

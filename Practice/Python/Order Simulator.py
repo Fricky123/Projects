@@ -9,7 +9,7 @@ locale.setlocale(locale.LC_ALL, '')
 # Cart
 costs = 0
 items = 0
-List = ""
+List = None
 balance = random.randint(50000, 100000)
 
 # Meals
@@ -125,12 +125,14 @@ def food_or_drinks_menu(foodtype, foodtype_price):
     else:
         page_title("DRINKS")
 
+    print("Choose one at a time:")
+
     x = 1
     for _ in foodtype:
         print(f"[{x}]{foodtype.get(x)} = {foodtype_price.get(x):n} php")
         x += 1
 
-    choice = input("\n[e]Exit\n"
+    choice = input("[e]Exit"
                    "\nChoose option: ")
 
     if choice == "e":
@@ -228,7 +230,7 @@ def transaction(foodtype, foodtype_price, choice):
         costs += quantity * foodtype_price.get(choice)
         items += quantity
         if not List:
-            List += f"{foodtype.get(choice)}({quantity:n})"
+            List = f"{foodtype.get(choice)}({quantity:n})"
         else:
             List += f", {foodtype.get(choice)}({quantity:n})"
         separator_line()
@@ -255,14 +257,14 @@ def customer_cart():
         f'{balance:n}'
         print("Your Cart:\n\n"
               f"Items: ---\n"
-              f"List: ---\n\n"
+              f"List: ---\n"
               f"Cost: ---\n"
               f"Your balance: {balance:n} php\n")
 
     else:
         print("Your Cart:\n\n"
               f"Items: {items:n}\n"
-              f"List: {List}\n\n"
+              f"List: {List}\n"
               f"Cost: {costs:n} php\n"
               f"Your balance: {balance:n} php")
 
