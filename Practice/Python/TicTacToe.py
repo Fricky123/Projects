@@ -1,5 +1,6 @@
 import random
 # ---------------------------------------------------------------------
+import time
 
 slots = {
     1: " ",
@@ -16,7 +17,6 @@ slots = {
 game_Log = []
 
 # ---------------------------------------------------------------------
-
 class Human:
 
     slots_filled = []
@@ -30,12 +30,17 @@ class Human:
             if slots.get(ans) == "x" or slots.get(ans) == "o":
                 print("Slot already drawn over")
                 human.draw()
-            else:
+            elif len(str(ans)) == 1:
                 slots.update({ans: human.shape})
                 human.slots_filled.append(ans)
                 game_Log.append(ans)
+            else:
+                invalid()
+                grid()
+                human.draw()
         except ValueError:
             input("Please input slot numbers only...")
+            grid()
             human.draw()
 
 class Ai:
@@ -67,39 +72,49 @@ class Ai_hard:
             if slots.get(ans) == "x" or slots.get(ans) == "o":
                 ai.draw()
 
+class Ai_impossible:
+    pass
 
 # ---------------------------------------------------------------------
-human = Human(random.choice(["x", "o"]))
+def intro():
+    print("Welcome to the TicTacToe game!\n\n"
+          "[1]Easy [2]Hard [3]Impossible\n")
+    ans = input("Select difficulty> ")
+    if ans == "1":
+        separate()
+        print("Easy difficulty selected...")
+        separate()
+        return Ai
+    if ans == "2":
+        separate()
+        print("Hard difficulty selected...")
+        separate()
+        return Ai_hard
+    if ans == "3":
+        separate()
+        print("Impossible difficulty selected...")
+        separate()
+        return Ai_impossible
 
-if human.shape == "x":
-    y = "o"
-else:
-    y = "x"
-
-ai = Ai(y)
-
-player1 = random.choice([ai, human])
-if player1 == human:
-    player2 = ai
-else:
-    player2 = human
-# ---------------------------------------------------------------------
 def game():
 
     try:
         while True:
             if player1 == human:
                 separate()
-                print("Your turn...")
                 if not game_Log:
-                    print(grid())
+                    grid()
+                else:
+                    print("Your turn...")
 
             player1.draw()
+
+            time.sleep(0.25)
 
             if player1 == ai:
                 separate()
                 print(f'Player 1 has drawn "{ai.shape}" on slot {game_Log.pop()}...')
-                print(grid())
+                grid()
 
             check()
             if check() is False:
@@ -108,7 +123,7 @@ def game():
                     print('Player 1 Wins')
                 else:
                     separate()
-                    print(grid())
+                    grid()
                     print('You win!')
                 break
 
@@ -117,6 +132,7 @@ def game():
                 print("Your turn...")
 
             player2.draw()
+            time.sleep(.25)
 
             if player2 == ai:
                 separate()
@@ -127,18 +143,18 @@ def game():
             if check() is False:
                 if ai == player2:
                     separate()
-                    print('Player 2 Wins')
+                    print('Player 2 Won')
                 else:
                     separate()
-                    print(grid())
-                    print('You win!')
+                    grid()
+                    print('You won!')
                 break
 
-            print(grid())
+            grid()
 
 
     except RecursionError:
-        print(grid())
+        grid()
         print("It's a tie!")
 
 def check():
@@ -150,21 +166,42 @@ def check():
             return False
 
 def grid():
-    return f"| {slots.get(7)} | {slots.get(8)} | {slots.get(9)} |\n" \
-           f"| {slots.get(4)} | {slots.get(5)} | {slots.get(6)} |\n" \
-           f"| {slots.get(1)} | {slots.get(2)} | {slots.get(3)} |"
+    print(f"| {slots.get(7)} | {slots.get(8)} | {slots.get(9)} |\n"
+          f"| {slots.get(4)} | {slots.get(5)} | {slots.get(6)} |\n"
+          f"| {slots.get(1)} | {slots.get(2)} | {slots.get(3)} |")
 
 def separate():
     print(f"-------------------------------")
+
+def invalid():
+    input("Invalid input....")
 # ---------------------------------------------------------------------
+human = Human(random.choice(["x", "o"]))
+
+if human.shape == "x":
+    y = "o"
+else:
+    y = "x"
+
+ai = intro()(y)
+
+player1 = random.choice([ai, human])
+if player1 == human:
+    player2 = ai
+else:
+    player2 = human
+
+time.sleep(0.3)
 print(f"Slot numbers:\n" 
       f"| 7 | 8 | 9 |\n" 
       f"| 4 | 5 | 6 |\n" 
       f"| 1 | 2 | 3 |\n" 
       f"-------------------------------\n" 
       f"Your symbol is {human.shape.upper()}...")
+if human == player1:
+    print("You are player 1...")
+else:
+    print("You are player 2...")
 input("Press any key...")
-
-
 
 game()

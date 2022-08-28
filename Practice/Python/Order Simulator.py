@@ -18,15 +18,19 @@ m = {1: "Adobo",
      3: "Pakbet",
      4: "Kinilaw",
      5: "Bulalo",
-     6: "Chickenjoy sa Mcdo"}
+     6: "Chickenjoy sa Mcdo",
+     7: "Rice",
+     8: "Rice Platter"}
 
 # Prices for Meals
-m_p = {1: 50,
-       2: 60,
+m_p = {1: 49,
+       2: 59,
        3: 334345,
        4: 234,
        5: 133,
-       6: 1}
+       6: 1,
+       7: 9,
+       8: 99}
 
 # Drinks
 d = {1: "Coka-Cola Litro",
@@ -42,7 +46,6 @@ d_p = {1: 50,
 
 # Miscellaneous
 delivery_cost = 9999
-
 
 # ----------------------------------------------------------------------
 '''Main Functions (in order)'''
@@ -125,15 +128,15 @@ def food_or_drinks_menu(foodtype, foodtype_price):
     else:
         page_title("DRINKS")
 
-    print("Choose one at a time:")
+    print("Choose one at a time:\n")
 
     x = 1
     for _ in foodtype:
         print(f"[{x}]{foodtype.get(x)} = {foodtype_price.get(x):n} php")
         x += 1
 
-    choice = input("[e]Exit"
-                   "\nChoose option: ")
+    choice = input("\n[e]Exit\n\n"
+                   "Choose option: ")
 
     if choice == "e":
         print("(Exiting Food Menu...)")
@@ -156,11 +159,9 @@ def purchase_or_reset_cart():
     page_title("PURCHASE/RESET CART MENU")
 
     if items:
-        print(f"\nTotal Cost = Your Cart + Delivery Cost\n"
-              f"Total Cost = {costs:n} php + {delivery_cost:n} php\n"
-              f"Total Cost = {costs + delivery_cost:n} php\n"
-              f"Your balance: {balance:n} php\n\n"
-              f"Your new balance: {balance - (costs + delivery_cost):n}")
+        print(f"Total Cost = {costs + delivery_cost:n} php\n"
+              f"Your balance = {balance:n} php\n"
+              f"Your new balance = {balance - (costs + delivery_cost):n}\n")
 
         if (balance - (costs + delivery_cost)) < 0:
             print(f"Insufficient payment...\n\n"
