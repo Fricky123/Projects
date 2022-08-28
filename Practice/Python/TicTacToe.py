@@ -1,6 +1,7 @@
 import random
-# ---------------------------------------------------------------------
 import time
+# ---------------------------------------------------------------------
+'''Game Data'''
 
 slots = {
     1: " ",
@@ -17,12 +18,11 @@ slots = {
 game_Log = []
 
 # ---------------------------------------------------------------------
+'''Player Classes'''
 class Human:
 
     slots_filled = []
-
-    def __init__(self, shape):
-        self.shape = shape
+    shape = None
 
     def draw(self):
         try:
@@ -46,9 +46,7 @@ class Human:
 class Ai:
 
     slots_filled = []
-
-    def __init__(self, shape):
-        self.shape = shape
+    shape = None
 
     def draw(self):
         ans = random.randint(1, 9)
@@ -62,39 +60,46 @@ class Ai:
 class Ai_hard:
 
     slots_filled = []
-
-    def __init__(self, shape):
-        self.shape = shape
+    shape = None
 
     def draw(self):
-        if Ai_hard == player1:
-            ans = random.randint(1, 9)
-            if slots.get(ans) == "x" or slots.get(ans) == "o":
-                ai.draw()
+        pass
+        # if not game_Log:
+        #     ans = random.choice([1, 3, 7, 9])
+        #     if slots.get(ans) == "x" or slots.get(ans) == "o":
+        #         ai.draw()
+        #     else:
+        #         slots.update({ans: ai.shape})
+        #         ai.slots_filled.append(ans)
+        #         game_Log.append(ans)
+        #
+        # elif
+
 
 class Ai_impossible:
     pass
 
 # ---------------------------------------------------------------------
+'''Functions in order'''
 def intro():
     print("Welcome to the TicTacToe game!\n\n"
-          "[1]Easy [2]Hard [3]Impossible\n")
+          "[1]Easy [2]Hard [3]Impossible")
     ans = input("Select difficulty> ")
     if ans == "1":
         separate()
         print("Easy difficulty selected...")
         separate()
-        return Ai
+        return Ai()
     if ans == "2":
         separate()
         print("Hard difficulty selected...")
         separate()
-        return Ai_hard
+        return Ai_hard()
     if ans == "3":
         separate()
         print("Impossible difficulty selected...")
         separate()
-        return Ai_impossible
+        return Ai_impossible()
 
 def game():
 
@@ -107,9 +112,8 @@ def game():
                 else:
                     print("Your turn...")
 
+            time.sleep(0.1)
             player1.draw()
-
-            time.sleep(0.25)
 
             if player1 == ai:
                 separate()
@@ -131,8 +135,8 @@ def game():
                 separate()
                 print("Your turn...")
 
+            time.sleep(0.1)
             player2.draw()
-            time.sleep(.25)
 
             if player2 == ai:
                 separate()
@@ -176,21 +180,20 @@ def separate():
 def invalid():
     input("Invalid input....")
 # ---------------------------------------------------------------------
-human = Human(random.choice(["x", "o"]))
-
+'''Sequence'''
+human = Human()
+ai = intro()
+human.shape = random.choice(["x", "o"])
 if human.shape == "x":
     y = "o"
 else:
     y = "x"
-
-ai = intro()(y)
-
+ai.shape = y
 player1 = random.choice([ai, human])
 if player1 == human:
     player2 = ai
 else:
     player2 = human
-
 time.sleep(0.3)
 print(f"Slot numbers:\n" 
       f"| 7 | 8 | 9 |\n" 
@@ -203,5 +206,4 @@ if human == player1:
 else:
     print("You are player 2...")
 input("Press any key...")
-
 game()
