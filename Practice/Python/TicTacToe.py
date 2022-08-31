@@ -34,6 +34,7 @@ class Human:
                 slots.update({ans: human.shape})
                 human.slots_filled.append(ans)
                 game_Log.append(ans)
+                # grid()
             else:
                 invalid()
                 grid()
@@ -56,6 +57,7 @@ class Ai:
             slots.update({ans: ai.shape})
             ai.slots_filled.append(ans)
             game_Log.append(ans)
+            # grid()
 
 class Ai_hard:
 
@@ -114,10 +116,10 @@ def game():
 
             time.sleep(0.1)
             player1.draw()
-
+            print(game_Log)
             if player1 == ai:
                 separate()
-                print(f'Player 1 has drawn "{ai.shape}" on slot {game_Log.pop()}...')
+                print(f'Player 1 has drawn "{ai.shape}" on slot {game_Log[-1:][0]}...')
                 grid()
 
             check()
@@ -137,10 +139,10 @@ def game():
 
             time.sleep(0.1)
             player2.draw()
-
+            print(game_Log)
             if player2 == ai:
                 separate()
-                print(f'Player 2 has drawn "{ai.shape}" on slot {game_Log.pop()}...')
+                print(f'Player 2 has drawn "{ai.shape}" on slot {game_Log[-1:][0]}...')
 
             check()
 
@@ -156,7 +158,6 @@ def game():
 
             grid()
 
-
     except RecursionError:
         grid()
         print("It's a tie!")
@@ -166,7 +167,11 @@ def check():
     for condition in win_conditions:
         if all([item in human.slots_filled for item in condition]) is True:
             return False
-        if all([item in ai.slots_filled for item in condition]) is True:
+        elif all([item in ai.slots_filled for item in condition]) is True:
+            return False
+        elif len(game_Log) == 9:
+            grid()
+            print("It's a tie!")
             return False
 
 def grid():
