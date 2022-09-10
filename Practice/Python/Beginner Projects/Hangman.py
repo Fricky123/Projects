@@ -68,7 +68,10 @@ def guess():
             if len(x.strip()) == 0:
                 print("You entered nothing...")
                 guess()
+            elif x in hidden_word:
+                print(f"{x} is already guessed...")
             elif x == word:
+                print("\n" + word)
                 print("\nYou've won!")
                 break
             elif x not in list(word):
