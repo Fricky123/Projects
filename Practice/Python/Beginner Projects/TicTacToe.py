@@ -10,7 +10,6 @@ slots = {7: " ", 8: " ", 9: " ",
 game_Log = []
 # ---------------------------------------------------------------------
 '''player classes'''
-
 class Human:
     slots_filled = []
     shape = None
@@ -82,7 +81,10 @@ class AI_Mid:
             print(grid())
 
         def func1():
-            x = random.choice(self.current_condition)
+            if len(self.current_condition) == 2:
+                x = self.current_condition[-1]
+            else:
+                x = random.choice(self.current_condition)
             if slots.get(self.current_condition[0]) != " " or slots.get(self.current_condition[-1]) != " ":
                 self.my_conditions.remove(self.current_condition)
                 self.current_condition = []
@@ -91,24 +93,40 @@ class AI_Mid:
                 self.current_condition.remove(x)
                 confirm_move(x)
 
+                for condition in win_conditions:
+                    if x in condition:
+                        condition.remove(x)
+                        self.my_conditions.append(condition)
+
         def func2():
             x = random.choice(self.my_conditions)
             self.current_condition = x
             cycle()
 
         def func3():
+            # try:
+            #     x = 0
+            #     while slots.get(x) != " ":
+            #         x = random.choice([1, 3, 7, 9])
+            # except RecursionError:
+            #     x = 0
+            #     while slots.get(x) != " ":
+            #         x = random.randint(1, 9)
+            x = []
             if slots.get(1) == " ":
-                x = 1
-            elif slots.get(3) == " ":
-                x = 3
-            elif slots.get(7) == " ":
-                x = 7
-            elif slots.get(9) == " ":
-                x = 9
-            else:
+                x.append(1)
+            if slots.get(3) == " ":
+                x.append(3)
+            if slots.get(7) == " ":
+                x.append(7)
+            if slots.get(9) == " ":
+                x.append(9)
+            if not x:
                 x = 0
                 while slots.get(x) != " ":
                     x = random.randint(1, 9)
+            else:
+                x = random.choice(x)
 
             confirm_move(x)
 
@@ -140,6 +158,7 @@ user = Human()
 ai = None
 player1 = None
 player2 = None
+
 # ---------------------------------------------------------------------
 '''functions'''
 def choose_difficulty():

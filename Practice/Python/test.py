@@ -1,18 +1,7 @@
 import random
-slots = {
-    1: " ",
-    2: "o",
-    3: " ",
-    4: "o",
-    5: " ",
-    6: " ",
-    7: " ",
-    8: " ",
-    9: "x"
-}
+slots = {7: " ", 8: " ", 9: " ",
+         4: " ", 5: " ", 6: " ",
+         1: " ", 2: " ", 3: "x",}
 
-current_condition = [7, 8]
-
-for number in current_condition:
-    if slots.get(number) == " ":
-
+if all(slots.get([1, 3, 7, 9])) == "x":
+    print("True")
