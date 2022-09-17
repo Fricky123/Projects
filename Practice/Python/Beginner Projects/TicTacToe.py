@@ -104,14 +104,6 @@ class AI_Mid:
             cycle()
 
         def func3():
-            # try:
-            #     x = 0
-            #     while slots.get(x) != " ":
-            #         x = random.choice([1, 3, 7, 9])
-            # except RecursionError:
-            #     x = 0
-            #     while slots.get(x) != " ":
-            #         x = random.randint(1, 9)
             x = []
             if slots.get(1) == " ":
                 x.append(1)
