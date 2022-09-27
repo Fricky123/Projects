@@ -21,17 +21,19 @@ class Human:
 
         try:
             ans = int(input("Draw where> "))
-            if slots.get(ans) != " ":
+            if len(str(ans)) > 1:
+                invalid()
+                user.draw()
+            elif slots.get(ans) != " ":
                 print("Slot is occupied... Try again...")
                 time.sleep(0.5)
                 print(grid())
                 user.draw()
-            elif len(str(ans)) == 1:
-                #  --------------------Answer to board algorithm----------------------- #
+            else:
                 slots.update({ans: user.shape})
                 user.slots_filled.append(ans)
                 game_Log.append(ans)
-                print(f"You drew {user.shape} on slot {game_Log[-1:][0]}...")
+                print(f"You drew {user.shape} on slot {game_Log[-1]}...")
                 print(grid())
 
         except ValueError:
@@ -214,32 +216,40 @@ def game():
 
         if len(game_Log) == 9:
             return "tie"
+    def declare():
+        def decide():
+            ans = input("Do you want to play again? ").lower()
+            if 'yes' in ans:
+                separate()
+                sequence()
+            elif 'no' in ans:
+                exit()
+            else:
+                invalid()
+                decide()
+
+        if check():
+            if check() == "user_win":
+                print("You won!")
+
+            elif check() == "ai_win":
+                print("Opponent Won!")
+
+            elif check() == "tie":
+                print("It's a tie!")
+
+            separate()
+            decide()
 
     while True:
 
         player1.draw()
         check()
-        if check() == "user_win":
-            print("You won!")
-            break
-        elif check() == "ai_win":
-            print("Opponent Won!")
-            break
-        elif check() == "tie":
-            print("It's a tie!")
-            break
+        declare()
 
         player2.draw()
         check()
-        if check() == "user_win":
-            print("You won!")
-            break
-        elif check() == "ai_win":
-            print("Opponent Won!")
-            break
-        elif check() == "tie":
-            print("It's a tie!")
-            break
+        declare()
 
 def grid():
     return f"| {slots.get(7)} | {slots.get(8)} | {slots.get(9)} |\n"\
@@ -249,9 +259,14 @@ def grid():
 def separate():
     print(f"-------------------------------")
 
+def invalid():
+    input("Please input a valid answer... Press any key to continue... ")
 # ---------------------------------------------------------------------
 '''sequence'''
-choose_difficulty()
-assign_player()
-intro()
-game()
+def sequence():
+    choose_difficulty()
+    assign_player()
+    intro()
+    game()
+
+sequence()
