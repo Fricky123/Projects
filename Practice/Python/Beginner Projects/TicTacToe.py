@@ -18,7 +18,7 @@ class Human:
 
         if not game_Log:
             print(grid())
-
+        ans = None
         try:
             ans = int(input("Draw where> "))
             if len(str(ans)) > 1:
@@ -155,6 +155,28 @@ player2 = None
 
 # ---------------------------------------------------------------------
 '''functions'''
+def resetEverything():
+    global slots, game_Log
+    slots = {7: " ", 8: " ", 9: " ",
+             4: " ", 5: " ", 6: " ",
+             1: " ", 2: " ", 3: " ", }
+    game_Log = []
+
+    # human
+    Human.slots_filled = []
+    Human.shape = None
+
+    # easy
+    AI_Easy.slots_filled = []
+    AI_Easy.shape = None
+
+    # medium
+    AI_Mid.slots_filled = []
+    AI_Mid.shape = None
+
+    AI_Mid.my_conditions = []
+    AI_Mid.current_condition = []
+
 def choose_difficulty():
     global ai
     x = input("[1]Easy | [2]Medium | [3]Hard\n"
@@ -264,6 +286,7 @@ def invalid():
 # ---------------------------------------------------------------------
 '''sequence'''
 def sequence():
+    resetEverything()
     choose_difficulty()
     assign_player()
     intro()
