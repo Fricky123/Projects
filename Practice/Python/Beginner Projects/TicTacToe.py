@@ -37,11 +37,11 @@ class Human:
                 print(grid())
 
         except ValueError:
-            if ans == "":
+            if ans is None:
                 input("You entered nothing...")
             else:
                 input("Please input slot numbers only...")
-                user.draw()
+            user.draw()
 
 class AI_Easy:
 
@@ -70,10 +70,8 @@ class AI_Mid:
 
     my_conditions = []
     current_condition = []
-
+    win_conditions = [[7, 8, 9], [4, 5, 6], [1, 2, 3], [7, 4, 1], [8, 5, 2], [9, 6, 3], [9, 5, 1], [7, 5, 3]]
     def draw(self):
-        win_conditions = [[7, 8, 9], [4, 5, 6], [1, 2, 3], [7, 4, 1], [8, 5, 2], [9, 6, 3], [9, 5, 1], [7, 5, 3]]
-
         def confirm_move(move):
             slots.update({move: ai.shape})
             ai.slots_filled.append(move)
@@ -83,11 +81,15 @@ class AI_Mid:
             print(grid())
 
         def func1():
-            if len(self.current_condition) == 2:
-                x = self.current_condition[-1]
-            else:
+            corners = [1, 3, 7, 9]
+            x = None
+            for num in corners:
+                if num in self.current_condition:
+                    x = num
+            if x is None:
                 x = random.choice(self.current_condition)
-            if slots.get(self.current_condition[0]) != " " or slots.get(self.current_condition[-1]) != " ":
+
+            if slots.get(self.current_condition[0]) == user.shape or slots.get(self.current_condition[-1]) == user.shape:
                 self.my_conditions.remove(self.current_condition)
                 self.current_condition = []
                 cycle()
@@ -95,7 +97,7 @@ class AI_Mid:
                 self.current_condition.remove(x)
                 confirm_move(x)
 
-                for condition in win_conditions:
+                for condition in self.win_conditions:
                     if x in condition:
                         condition.remove(x)
                         self.my_conditions.append(condition)
@@ -124,7 +126,7 @@ class AI_Mid:
 
             confirm_move(x)
 
-            for condition in win_conditions:
+            for condition in self.win_conditions:
                 if x in condition:
                     condition.remove(x)
                     self.my_conditions.append(condition)
@@ -155,6 +157,7 @@ player2 = None
 
 # ---------------------------------------------------------------------
 '''functions'''
+
 def resetEverything():
     global slots, game_Log
     slots = {7: " ", 8: " ", 9: " ",
@@ -173,9 +176,9 @@ def resetEverything():
     # medium
     AI_Mid.slots_filled = []
     AI_Mid.shape = None
-
     AI_Mid.my_conditions = []
     AI_Mid.current_condition = []
+    AI_Mid.win_conditions = [[7, 8, 9], [4, 5, 6], [1, 2, 3], [7, 4, 1], [8, 5, 2], [9, 6, 3], [9, 5, 1], [7, 5, 3]]
 
 def choose_difficulty():
     global ai
@@ -184,11 +187,11 @@ def choose_difficulty():
     if x.isnumeric() is True and len(x) > 1:
         input("Please input only one number of choice...")
         choose_difficulty()
-    elif "easy" in x or "1" in x[0]:
+    elif "easy" in x or "1" in x:
         ai = AI_Easy()
-    elif "medium" in x or "2" in x[0]:
+    elif "medium" in x or "2" in x:
         ai = AI_Mid()
-    elif "hard" in x or "3" in x[0]:
+    elif "hard" in x or "3" in x:
         ai = AI_Hard()
     else:
         input("Invalid input...")
@@ -264,14 +267,19 @@ def game():
             decide()
 
     while True:
-
+        # print(AI_Mid.my_conditions)
+        # print(AI_Mid.win_conditions)
         player1.draw()
         check()
         declare()
-
+        # print(AI_Mid.my_conditions)
+        # print(AI_Mid.win_conditions)
         player2.draw()
         check()
         declare()
+
+# ---------------------------------------------------------------------
+'''utility functions'''
 
 def grid():
     return f"| {slots.get(7)} | {slots.get(8)} | {slots.get(9)} |\n"\
