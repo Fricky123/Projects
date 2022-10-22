@@ -131,22 +131,28 @@ def reset_pass():
     separate()
     print('[RESET PASSWORD]\n')
 
-    x = input('Enter current password: ')
+    old_password = input('Enter current password: ')
 
     with open('accounts_for_password_manager.txt', 'r') as a:
-        if x != a.readlines()[position].split()[-1]:
+        account = a.readlines()
+
+        if old_password != account[position].split()[-1]:
             invalid('wrong_password')
             main()
         else:
-            y = input('Enter new password: ').lower()
-            z = input('Confirm new password: ').lower()
+            new_password = input('Enter new password: ').lower()
+            confirm_new_password = input('Confirm new password: ').lower()
 
-            if y != z:
+            if new_password != confirm_new_password:
                 invalid('wrong_confirm_password')
                 main()
             else:
-                with open('accounts_for_password_manager.txt', 'r') as a_r:
-                    pass
+                new_account = account[position].replace(old_password, new_password)
+
+                account[position] = new_account
+
+                with open('accounts_for_password_manager.txt', 'w') as a:
+                    a.writelines(account)
 
 # ------------------------------------------------------------------------
 '''Utility Functions'''
