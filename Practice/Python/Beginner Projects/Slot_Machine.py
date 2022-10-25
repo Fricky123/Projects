@@ -1,0 +1,103 @@
+import random
+# ----------------------------------------------------------------
+import time
+
+'''variables'''
+slots = {
+    1: ' ',
+    2: ' ',
+    3: ' ',
+    4: ' ',
+    5: ' ',
+    6: ' ',
+    7: ' ',
+    8: ' ',
+    9: ' ',
+}
+balance = random.randint(100, 1000)
+# ----------------------------------------------------------------
+'''main functions'''
+def control():
+    global balance
+    print(f'Your balance: {balance}')
+    act = input('Spin the wheel for $3? [y/n]: ').lower()
+    if 'y' in act or 'yes' in act:
+        balance -= 3
+        spin_the_wheels()
+        print('Wheel spinning...')
+        time.sleep(1)
+        grid = f"|{slots.get(7)}|{slots.get(8)}|{slots.get(9)}|\n" \
+               f"|{slots.get(4)}|{slots.get(5)}|{slots.get(6)}|\n" \
+               f"|{slots.get(1)}|{slots.get(2)}|{slots.get(3)}|"
+        print(grid)
+        time.sleep(0.5)
+        check()
+        separate()
+        control()
+    elif 'n' in act or 'no' in act:
+        print('bye!')
+        exit()
+    else:
+        input('[Invalid Input] Press any key to continue> ')
+        separate()
+        control()
+
+def spin_the_wheels():
+    icons = ['A', 'B', 'C', 'D', 'E']
+
+    combinations = [[icons[0], icons[1], icons[2]],
+                    [icons[1], icons[2], icons[3]],
+                    [icons[2], icons[3], icons[4]],
+                    [icons[3], icons[4], icons[0]],
+                    [icons[4], icons[0], icons[1]]]
+
+    wheel1 = [7, 4, 1]
+    wheel2 = [8, 5, 2]
+    wheel3 = [9, 6, 3]
+
+    y = random.choice(combinations)
+    index = 0
+    for number in wheel1:
+        slots.update({number: y[index]})
+        index += 1
+
+    y = random.choice(combinations)
+    index = 0
+    for number in wheel2:
+        slots.update({number: y[index]})
+        index += 1
+
+    y = random.choice(combinations)
+    index = 0
+    for number in wheel3:
+        slots.update({number: y[index]})
+        index += 1
+
+def check():
+    global balance
+    win_conditions = [[7, 8, 9], [4, 5, 6], [1, 2, 3], [7, 4, 1], [8, 5, 2], [9, 6, 3], [9, 5, 1], [7, 5, 3]]
+
+    jackpot = 0
+    for condition in win_conditions:
+        if slots.get(condition[0]) == slots.get(condition[1]) == slots.get(condition[2]):
+            jackpot += 1
+
+    if jackpot:
+        if jackpot > 1:
+            print(f'You scored {jackpot} points')
+        else:
+            print(f'You scored {jackpot} point')
+
+        prize = 20 * jackpot
+        balance += prize
+
+        print(f"You won ${prize}!")
+    else:
+        print('You won nothing!')
+
+def separate():
+    print('----------------------------------------------------------------')
+# ----------------------------------------------------------------
+'''sequence'''
+control()
+
