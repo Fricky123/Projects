@@ -78,9 +78,6 @@ def register():
             for account in accounts:
                 if new_username == account.split(' ')[0]:
                     invalid('username_taken')
-                    intro()
-                else:
-                    proceed = True
                     break
         else:
             proceed = True
@@ -112,10 +109,14 @@ def register():
                 else:
                     input('[Registration Error, Something went wrong] Press any key to continue> ')
 
+    else:
+        intro()
+
 def main():
     separate()
     print(f'Welcome, {logged_account}!\n\n'
-          f'[1] Reset Password\n')
+          f'[1] Reset Password\n'
+          f'[2] Log out')
 
     x = input('Choice> ').lower()
 
@@ -124,6 +125,8 @@ def main():
         main()
     elif '1' in x or 'reset' in x:
         reset_pass()
+    elif '2' in x or 'log out' in x:
+        log_out()
     else:
         invalid('invalid')
 
@@ -153,6 +156,18 @@ def reset_pass():
 
                 with open('accounts_for_password_manager.txt', 'w') as a:
                     a.writelines(account)
+
+                print('Reset Successful!')
+                main()
+
+def log_out():
+    global logged_account
+
+    logged_account = None
+    position = -1
+
+    print('You have logged out...')
+    intro()
 
 # ------------------------------------------------------------------------
 '''Utility Functions'''
