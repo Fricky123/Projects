@@ -1,7 +1,6 @@
 import random
-# ----------------------------------------------------------------
 import time
-
+# ----------------------------------------------------------------
 '''variables'''
 slots = {
     1: ' ',
@@ -15,22 +14,24 @@ slots = {
     9: ' ',
 }
 balance = random.randint(100, 1000)
+payment = 2
+win = 10
 # ----------------------------------------------------------------
 '''main functions'''
 def control():
     global balance
     print(f'Your balance: {balance}')
-    act = input('Spin the wheel for $3? [y/n]: ').lower()
+    act = input(f'Spin the wheel for ${payment}? [y/n]: ').lower()
     if 'y' in act or 'yes' in act:
-        balance -= 3
+        balance -= payment
         spin_the_wheels()
         print('Wheel spinning...')
-        time.sleep(1)
+        time.sleep(.5)
         grid = f"|{slots.get(7)}|{slots.get(8)}|{slots.get(9)}|\n" \
                f"|{slots.get(4)}|{slots.get(5)}|{slots.get(6)}|\n" \
                f"|{slots.get(1)}|{slots.get(2)}|{slots.get(3)}|"
         print(grid)
-        time.sleep(0.5)
+        time.sleep(0.2)
         check()
         separate()
         control()
@@ -43,31 +44,36 @@ def control():
         control()
 
 def spin_the_wheels():
-    icons = ['A', 'B', 'C', 'D', 'E']
+    combination1 = ['A', 'B', 'C', 'D', 'E']
+    combination2 = ['C', 'B', 'D', 'A', 'E']
+    combination3 = ['B', 'A', 'D', 'C', 'E']
 
-    combinations = [[icons[0], icons[1], icons[2]],
-                    [icons[1], icons[2], icons[3]],
-                    [icons[2], icons[3], icons[4]],
-                    [icons[3], icons[4], icons[0]],
-                    [icons[4], icons[0], icons[1]]]
+    def func1(combination):
+        combinations = [[combination[0], combination[1], combination[2]],
+                        [combination[1], combination[2], combination[3]],
+                        [combination[2], combination[3], combination[4]],
+                        [combination[3], combination[4], combination[0]],
+                        [combination[4], combination[0], combination[1]]]
+
+        return combinations
 
     wheel1 = [7, 4, 1]
     wheel2 = [8, 5, 2]
     wheel3 = [9, 6, 3]
 
-    y = random.choice(combinations)
+    y = random.choice(func1(combination1))
     index = 0
     for number in wheel1:
         slots.update({number: y[index]})
         index += 1
 
-    y = random.choice(combinations)
+    y = random.choice(func1(combination2))
     index = 0
     for number in wheel2:
         slots.update({number: y[index]})
         index += 1
 
-    y = random.choice(combinations)
+    y = random.choice(func1(combination3))
     index = 0
     for number in wheel3:
         slots.update({number: y[index]})
@@ -88,7 +94,7 @@ def check():
         else:
             print(f'You scored {jackpot} point')
 
-        prize = 20 * jackpot
+        prize = win * jackpot
         balance += prize
 
         print(f"You won ${prize}!")
