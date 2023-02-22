@@ -79,10 +79,10 @@ def register():
                 if new_username == account.split(' ')[0]:
                     invalid('username_taken')
                     break
-        else:
-            proceed = True
+                else:
+                    proceed = True
 
-    if proceed is True:
+    if proceed:
 
         new_password = input('Create password: ').lower()
         confirm_password = input('Confirm password: ').lower()

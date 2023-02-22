@@ -14,8 +14,8 @@ slots = {
     9: ' ',
 }
 balance = random.randint(100, 1000)
-payment = 2
-win = 10
+payment = 4
+win = 20
 # ----------------------------------------------------------------
 '''main functions'''
 def control():
@@ -25,7 +25,7 @@ def control():
     if 'y' in act or 'yes' in act:
         balance -= payment
         spin_the_wheels()
-        print('Wheel spinning...')
+        print('[Wheel spinning...]')
         time.sleep(.5)
         grid = f"|{slots.get(7)}|{slots.get(8)}|{slots.get(9)}|\n" \
                f"|{slots.get(4)}|{slots.get(5)}|{slots.get(6)}|\n" \
@@ -54,6 +54,34 @@ def spin_the_wheels():
                         [combination[2], combination[3], combination[4]],
                         [combination[3], combination[4], combination[0]],
                         [combination[4], combination[0], combination[1]]]
+
+        return combinations
+
+    def func2(combination):
+        index1 = 0
+        index2 = 1
+        index3 = 2
+
+        combinations = []
+
+        for letter in combination:
+            print(combinations)
+            combinations.append([combination[index1], combination[index2], combination[index3]])
+
+            if combinations[index1] == combinations[len(combinations) - 1]:
+                index1 = 0
+            else:
+                index1 += 1
+
+            if combinations[index2] == combinations[len(combinations) - 1]:
+                index2 = 0
+            else:
+                index2 += 1
+
+            if combinations[index3] == combinations[len(combinations) - 1]:
+                index3 = 0
+            else:
+                index3 += 1
 
         return combinations
 
@@ -98,12 +126,14 @@ def check():
         balance += prize
 
         print(f"You won ${prize}!")
-    else:
-        print('You won nothing!')
+    # else:
+    #     print('You won nothing!')
 
 def separate():
     print('----------------------------------------------------------------')
 # ----------------------------------------------------------------
 '''sequence'''
+print('3-letter combination = 1 point\n'
+      f'1 point = ${win}')
 control()
 

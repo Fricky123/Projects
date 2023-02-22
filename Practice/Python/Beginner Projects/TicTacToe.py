@@ -267,13 +267,11 @@ def game():
             decide()
 
     while True:
-        # print(AI_Mid.my_conditions)
-        # print(AI_Mid.win_conditions)
+
         player1.draw()
         check()
         declare()
-        # print(AI_Mid.my_conditions)
-        # print(AI_Mid.win_conditions)
+
         player2.draw()
         check()
         declare()

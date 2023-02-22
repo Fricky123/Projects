@@ -50,7 +50,6 @@ delivery_cost = 9999
 # ----------------------------------------------------------------------
 '''Main Functions (in order)'''
 
-
 def intro():
     """Introductory script"""
     separator_line()
@@ -135,19 +134,24 @@ def food_or_drinks_menu(foodtype, foodtype_price):
         print(f"[{x}]{foodtype.get(x)} = {foodtype_price.get(x):n} php")
         x += 1
 
-    choice = input("\n[e]Exit\n\n"
-                   "Choose option: ")
+    try:
+        choice = input("\n[e]Exit\n\n"
+                       "Choose option: ")
 
-    if choice == "e":
-        print("(Exiting Food Menu...)")
-        menu()
+        if choice == "e":
+            print("(Exiting Food Menu...)")
+            menu()
 
-    elif foodtype.get(int(choice)) is not None:
-        transaction(foodtype, foodtype_price, int(choice))
+        elif foodtype.get(int(choice)) is not None:
+            transaction(foodtype, foodtype_price, int(choice))
 
-    else:
+        else:
+            invalid_input()
+            food_or_drinks_menu(foodtype, foodtype_price)
+
+    except ValueError:
         invalid_input()
-        food_or_drinks_menu(foodtype, foodtype_price)
+        menu()
 
 def purchase_or_reset_cart():
     global costs
@@ -159,9 +163,13 @@ def purchase_or_reset_cart():
     page_title("PURCHASE/RESET CART MENU")
 
     if items:
-        print(f"Total Cost = {costs + delivery_cost:n} php\n"
-              f"Your balance = {balance:n} php\n"
-              f"Your new balance = {balance - (costs + delivery_cost):n}\n")
+        print(f"Food       = {costs:n} php \n"
+              f"Delivery   = {delivery_cost:n} php +\n"
+              f"Total Cost = {costs + delivery_cost:n} php\n\n"
+              
+              f"Your balance     = {balance:n} php\n"
+              f"Total Cost       = {costs + delivery_cost:n} php -\n"
+              f"Your new balance = {balance - (costs + delivery_cost):n} php\n")
 
         if (balance - (costs + delivery_cost)) < 0:
             print(f"Insufficient payment...\n\n"
@@ -251,7 +259,6 @@ def transaction(foodtype, foodtype_price, choice):
 
 # ----------------------------------------------------------------------
 '''Utility Functions (To prevent repeating lines of code)'''
-
 
 def customer_cart():
     if not List and not items:

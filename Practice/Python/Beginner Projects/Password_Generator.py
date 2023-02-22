@@ -22,5 +22,9 @@ def password_generator(length):
     return print("\nYour password: "+ password)
 
 print("------Password Generator------\n")
-length = int(input("Password length = "))
+try:
+    length = int(input("Password length = "))
+except ValueError:
+    print('error')
+    exit()
 password_generator(length)
