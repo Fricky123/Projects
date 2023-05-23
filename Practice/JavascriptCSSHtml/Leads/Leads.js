@@ -4,6 +4,7 @@ const saveTabBtn = document.getElementById('saveTab-btn');
 const resetBtn = document.getElementById('reset-btn');
 const leadsListEl = document.getElementById('leadsList-el');
 const input = document.getElementById('input-el');
+const removeBtn = document.getElementById('remove-btn');
 
 let leads = [];
 
@@ -26,12 +27,12 @@ function render() {
     }
 }
 
-
 // BUTTONS
 saveInputBtn.addEventListener('click', function() {
     if (input.value != '') {
         leads.push(input.value);
         localStorage.setItem('myLeads', JSON.stringify(leads));
+        input.value='';
         render();
     }
 })

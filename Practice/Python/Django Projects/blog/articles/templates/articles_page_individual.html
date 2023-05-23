@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title%}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    <a href='/'>HOME BUTTON</a>
+    <ul>
+        <h2>
+            <a href=''>"{{ title }}"</a> <br> 
+        </h2>
+        {{ slug|default:"---" }} <br> 
+        {{ body }} <br>
+        {{ date }} <br><br>
+    </ul>
+{% endblock %}

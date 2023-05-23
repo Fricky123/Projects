@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title%}
+    Frickybook Articles Page
+{% endblock %}
+
+{% block content %}
+    <a href='/'>HOME BUTTON</a>
+
+    <h1>POSTS:</h1>
+  
+    <ul>
+    {% for x in article_list %}
+            <li>
+                <h2>
+                    Article {{ forloop.revcounter }}:
+                    <a href={% url 'article_list:articles' %}>"{{ x.title }}"</a> <br> 
+                </h2>
+                {{ x.slug|default:"---" }} <br> 
+                {{ x.body }} <br>
+                {{ x.date }} <br><br>
+            </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

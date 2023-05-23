@@ -42,7 +42,7 @@ def grid(difficulty):
     
     elif difficulty == 'hard':
         generate_grid(3)
-        bomb_generator('hard')
+        # bomb_generator('hard')
         
     else:
         invalid()
@@ -94,7 +94,7 @@ def generate_grid(grid_number):
 
 def bomb_generator(difficulty):
     global rows
-    bombs = 5
+    bombs = 0
     bombs_placed = 0
     
     if difficulty == 'easy':
@@ -123,6 +123,12 @@ def print_grid():
 def game():
     try:
         print_grid()
+        
+        # new_input = input('Select row & column: ').lower()
+        
+        # if 'quit' in new_input:
+        #     exit()
+            
         x = input('row: ').lower()
         
         if 'quit' in x:
@@ -154,6 +160,7 @@ def change_spot(x, y, bomb=False):
     
     try:
         rows[x][y] = '   |'
+        
     except IndexError:
         print("[Row/Column Limit: 5]")
         invalid()
@@ -165,87 +172,116 @@ def change_spot(x, y, bomb=False):
     auto_clear(x, y + 1)
     
 def auto_clear(x, y):
+    global rows
     
-    # -------------HORIZONTAL CLEAR
-    def row_clear(x):
-
-        # LEFT CLEAR
-        loop1 = 1
+    def row_clear(x, y):
+        global rows
+        
+        # left clear
+        loop1 = 0
         while True:
-            
+            print('test 1')
             try:
-                if rows[x][y + loop1] == ' O |' and rows[x - 1][y + loop1] == ' O |' and rows[x + 1][y + loop1] == ' O |':
+                if rows[x][y + loop1] == ' O |':
+                    print('break1')
+                    break
+
+                if rows[x + 1][y + loop1] == ' O |':
+                    print('break2')
+                    break
+                
+                if rows[x - 1][y + loop1] == ' O |':
+                    print('break3')
                     break
                 
                 if rows[x][y + loop1] == ' - |':
+                    print('left clear testing ')
                     rows[x][y + loop1] = '   |'
-                
                     loop1 += 1
 
-                else:
-                    break
-                
             except IndexError:
+                print('index test')
                 break
-        
-        # RIGHT CLEAR
-        loop2 = 1
-        while True:
             
+            
+        # right clear
+        loop2 = 0
+        while True:
+            print('test 2')
             try:
-                if rows[x][y - loop2] == ' O |' or rows[x - 1][y - loop2] == ' O |' or rows[x - 1][y - loop2] == ' O |':
+                if rows[x][y - loop2] == ' O |':
+                    print('break4')
+                    break
+            
+                if rows[x + 1][y - loop2] == ' O |':
+                    print('break5')
+                    break
+                    
+                if rows[x - 1][y - loop2] == ' O |':
+                    print('break6')
                     break
                 
-                if rows[x][y - loop2] == ' - |':
+                if rows[x][y + loop2] == ' - |':
+                    print('right clear testing')
                     rows[x][y - loop2] = '   |'
                     loop2 += 1
-                    
+
                 else:
                     break
-            
+                
             except IndexError:
                 break
-        
-        
-    row_clear(x)
-    
-    # -------------VERTICAL CLEAR
-    
-    # DOWN CLEAR
-    loop1 = 1
-    while True:
-        try:
-            if rows[x + loop1][y] == ' O |' or rows[x + loop1][y + 1] == ' O |' or rows[x + loop1][y - 1] == ' O |':
-                break
             
-            if rows[x + loop1][y] == ' - |':
-                rows[x + loop1][y] = '   |'
-                row_clear(x + loop1)
-                loop1 += 1
-                
-            else:
-                break
-            
-        except IndexError:
-            break
+    row_clear(x, y)        
     
-    # UP CLEAR
-    loop2 = 1
-    while True:
-        try:
-            if rows[x - loop2][y] == ' O |' or rows[x - loop2][y + 1] == ' O |' or rows[x - loop2][y - 1] == ' O |':
-                break
-            
-            if rows[x - loop2][y] == ' - |':
-                rows[x - loop2][y] = '   |'
-                row_clear(x - loop2)
-                loop2 += 1
+    # loop3 = 1
+    # while True:
 
-            else:
-                break
+    #     try:
+    #         if rows[x - loop3][y] == ' O |':
+    #             break
             
-        except IndexError:
-            break
+    #         elif rows[x - loop3][y - 1] == ' O |':
+    #             break
+            
+    #         elif rows[x - loop3][y + 1] == ' O |':
+    #             break
+            
+    #         elif rows[x - loop3][y] == ' - |':
+    #             rows[x - loop3][y] = '   |'
+    #             row_clear((x - 1), y)
+    #             loop3 += 1
+
+    #         else:
+    #             break
+            
+    #     except IndexError:
+    #         break
+        
+    # loop4 = 1
+    # while True:
+        
+    #     try:
+    #         if rows[x + loop4][y] == ' O |':
+    #             break
+            
+    #         elif rows[x + loop4][y - 1] == ' O |':
+    #             break
+            
+    #         elif rows[x + loop4][y + 1] == ' O |':
+    #             break
+            
+    #         elif rows[x + loop3][y] == ' - |':
+    #             rows[x + loop3][y] = '   |'
+    #             row_clear((x + 1), y)
+    #             loop4 += 1
+
+    #         else:
+    #             break
+            
+    #     except IndexError:
+    #         break
+
 
 def check_spot(x, y):
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l']
@@ -260,7 +296,6 @@ def line():
 
 def invalid():
     input('[INVALID INPUT] Press any key to continue >')
-
 
 intro()
 game()
